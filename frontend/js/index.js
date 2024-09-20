@@ -587,21 +587,12 @@ function verifyThenAdd(server) {
     }
     servers_verifying[server.Id] = server;
 
-    curr_req = ajax.request(normalizeUrl(server.Address + "/System/Info/Public"), {
+    curr_req = ajax.request(normalizeUrl(server.Address), {
         method: "GET",
         success: function (data) {
             console.log("success");
             console.log(server);
             console.log(data);
-
-            // TODO: Do we want to autodiscover only Jellyfin servers, or anything that responds to "who is JellyfinServer?"
-            if (data.ProductName == "Jellyfin Server") {
-                server.system_info_public = data;
-                if (!discovered_servers[server.Id]) {
-                    discovered_servers[server.Id] = server;
-                    renderServerList(discovered_servers);
-                }
-            }
             servers_verifying[server.Id] = true;
         },
         error: function (data) {
@@ -615,7 +606,7 @@ function verifyThenAdd(server) {
             console.log(server);
             servers_verifying[server.Id] = false;
         },
-        timeout: 5000
+        timeout: 6000
     });
 }
 
