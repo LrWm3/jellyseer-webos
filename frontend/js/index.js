@@ -12,7 +12,7 @@ var manifest = false;
 var appInfo = {
     deviceId: null,
     deviceName: 'LG Smart TV',
-    appName: 'Jellyfin for WebOS',
+    appName: 'Jellyseer for WebOS',
     appVersion: '0.0.0'
 };
 
@@ -223,7 +223,7 @@ function handleServerSelect() {
         getServerInfo(baseurl, auto_connect);
     } else {
         console.log(baseurl);
-        displayError("Please enter a valid URL, it needs a scheme (http:// or https://), a hostname or IP (ex. jellyfin.local or 192.168.0.2) and a port (ex. :8096 or :8920).");
+        displayError("Please enter a valid URL, it needs a scheme (http:// or https://), a hostname or IP (ex. jellyseer.local or 192.168.0.2) and a port (ex. :5055).");
     }
 }
 
@@ -383,9 +383,9 @@ function handleFailure(data) {
     } else if (typeof data.error === 'string') {
         displayError(data.error);
     } else if (typeof data.error === 'number' && data.error > 0) {
-        displayError("Got HTTP error " + data.error.toString() + " from server, are you connecting to a Jellyfin Server?")
+        displayError("Got HTTP error " + data.error.toString() + " from server, are you connecting to a Jellyseer Server?")
     } else {
-        displayError("Unknown error occured, are you connecting to a Jellyfin Server?")
+        displayError("Unknown error occured, are you connecting to a Jellyseer Server?")
     }
 
     hideConnecting();
