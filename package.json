@@ -8,7 +8,7 @@
         "clean": "rm -rf build/",
         "deploy": "ares-install build/org.lrwm3.webos.jellyseer_${npm_package_version}_all.ipk",
         "launch": "ares-launch org.lrwm3.webos.jellyseer",
-        "manifest": "node tools/gen-manifest.js build/org.lrwm3.webos.jellyseer.manifest.json",
+        "manifest": "node tools/gen-manifest.js build/org.lrwm3.webos.jellyseerr.manifest.json",
         "version": "node tools/sync-version.js && git add frontend/appinfo.json",
         "test": "echo \"Error: no test specified\" && exit 1"
     },

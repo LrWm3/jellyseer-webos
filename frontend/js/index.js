@@ -235,7 +235,7 @@ function handleServerSelect() {
     } else {
         console.log(baseurl);
         displayError(
-            "Please enter a valid URL, it needs a scheme (http:// or https://), a hostname or IP (ex. jellyseer.local or 192.168.0.2) and a port (ex. :5055)."
+            "Please enter a valid URL, it needs a scheme (http:// or https://), a hostname or IP (ex. jellyseerr.local or 192.168.0.2) and a port (ex. :5055)."
         );
     }
 }
@@ -663,7 +663,7 @@ function startDiscovery() {
     }
     console.log("Starting server autodiscovery...");
     discover = webOS.service.request(
-        "luna://org.lrwm3.webos.jellyseer.service",
+        "luna://org.lrwm3.webos.jellyseerr.service",
         {
             method: "discover",
             parameters: {
