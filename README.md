@@ -1,19 +1,19 @@
-
 # Jellyfin for webOS
-This is a small wrapper around the web interface that the server provides (https://github.com/jellyfin/jellyfin-web) so most of the developement happens there.
 
+This is a small wrapper around the web interface that the server provides (https://github.com/jellyfin/jellyfin-web) so most of the developement happens there.
 
 ## Download
 
 For all versions:
+
 <p align="center">
 <a href="https://us.lgappstv.com/main/tvapp/detail?appId=1030579"><img alt="Enjoy on LG Smart TV" src="https://repo.jellyfin.org/releases/other/lg-badge/LG_BADGE_greyborders_135x40.png"/></a>
 <br/>
 <em><strong>Note:</strong> If you previously installed the app via Homebrew or Developer mode, you must uninstall that before you can use the store version.</em>
 </p>
 
-
 ## License
+
 All Jellyfin webOS code is licensed under the MPL 2.0 license, some parts incorporate content licensed under the Apache 2.0 license. All images are taken from and licensed under the same license as https://github.com/jellyfin/jellyfin-ux.
 
 ---
@@ -22,19 +22,19 @@ All Jellyfin webOS code is licensed under the MPL 2.0 license, some parts incorp
 
 The general development workflow looks like this:
 
-- Prepare a build environment of your choice (see below)
-- Compile an IPK either with the IDE or with ares-package
-- Test the app on the emulator or ares-server or install it on your tv by following http://webostv.developer.lge.com/develop/app-test/
+-   Prepare a build environment of your choice (see below)
+-   Compile an IPK either with the IDE or with ares-package
+-   Test the app on the emulator or ares-server or install it on your tv by following http://webostv.developer.lge.com/develop/app-test/
 
 There are three ways of creating the required build environment:
 
-- Full WebOS SDK Installation
-- Docker
-- NPM ares-cli
+-   Full WebOS SDK Installation
+-   Docker
+-   NPM ares-cli
 
 ### Full WebOS SDK Installation
 
-- Install the WebOS SDK from http://webostv.developer.lge.com/sdk/installation/
+-   Install the WebOS SDK from http://webostv.developer.lge.com/sdk/installation/
 
 ### Docker
 
@@ -64,11 +64,12 @@ ares-package --no-minify services frontend
 ```
 
 ## Usage
+
 Fill in your hostname, port and schema and click connect. The app will check for a server by grabbing the manifest and the public serverinfo.
 And then the app hands off control to the hosted webUI.
 
-
 ## Testing
+
 Testing on a TV requires [registering a LG developer account](https://webostv.developer.lge.com/develop/app-test/preparing-account/) and [setting up the devmode app](https://webostv.developer.lge.com/develop/app-test/using-devmode-app/).
 
 Once you have installed the devmode app on your target TV and logged in with your LG developer account, you need to turn on the `Dev Mode Status` and `Key Server`.
@@ -85,11 +86,11 @@ Once you have installed the devmode app on your target TV and logged in with you
 ./dev.sh ares-device-info -d tv
 
 # This command installs the app. Remember to build it first.
-./dev.sh ares-install -d tv org.jellyfin.webos_*.ipk
+./dev.sh ares-install -d tv org.lrwm3.webos.jellyseer_*.ipk
 
 # Launch the app and the web developer console.
-./dev.sh ares-inspect -d tv org.jellyfin.webos
+./dev.sh ares-inspect -d tv org.lrwm3.webos.jellyseer
 
 # Or just launch the app.
-./dev.sh ares-launch -d tv org.jellyfin.webos
+./dev.sh ares-launch -d tv org.lrwm3.webos.jellyseer
 ```

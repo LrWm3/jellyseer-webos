@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
-*/
+ */
 
 var curr_req = false;
 var server_info = false;
@@ -11,9 +11,9 @@ var manifest = false;
 
 var appInfo = {
     deviceId: null,
-    deviceName: 'LG Smart TV',
-    appName: 'Jellyseer for WebOS',
-    appVersion: '0.0.0'
+    deviceName: "LG Smart TV",
+    appName: "Jellyseer for WebOS",
+    appVersion: "0.0.0",
 };
 
 var deviceInfo;
@@ -23,17 +23,18 @@ webOS.deviceInfo(function (info) {
 
 //Adds .includes to string to do substring matching
 if (!String.prototype.includes) {
-  String.prototype.includes = function(search, start) {
-    'use strict';
+    String.prototype.includes = function (search, start) {
+        "use strict";
 
-    if (search instanceof RegExp) {
-      throw TypeError('first argument must not be a RegExp');
-    }
-    if (start === undefined) { start = 0; }
-    return this.indexOf(search, start) !== -1;
-  };
+        if (search instanceof RegExp) {
+            throw TypeError("first argument must not be a RegExp");
+        }
+        if (start === undefined) {
+            start = 0;
+        }
+        return this.indexOf(search, start) !== -1;
+    };
 }
-
 
 function isVisible(element) {
     return element.offsetWidth > 0 && element.offsetHeight > 0;
@@ -42,25 +43,26 @@ function isVisible(element) {
 function findIndex(array, currentNode) {
     //This just implements the following function which is not available on some LG TVs
     //Array.from(allElements).findIndex(function (el) { return currentNode.isEqualNode(el); })
-    for (var i = 0, item; item = array[i]; i++) {
-        if (currentNode.isEqualNode(item))
-            return i;
+    for (var i = 0, item; (item = array[i]); i++) {
+        if (currentNode.isEqualNode(item)) return i;
     }
 }
 
 function navigate(amount) {
-    console.log("Navigating " + amount.toString() + "...")
+    console.log("Navigating " + amount.toString() + "...");
     var element = document.activeElement;
     if (element === null) {
         navigationInit();
-    } else if (!isVisible(element) || element.tagName == 'BODY') {
+    } else if (!isVisible(element) || element.tagName == "BODY") {
         navigationInit();
     } else {
         //Isolate the node that we're after
         const currentNode = element;
 
         //find all tab-able elements
-        const allElements = document.querySelectorAll('input, button, a, area, object, select, textarea, [contenteditable]');
+        const allElements = document.querySelectorAll(
+            "input, button, a, area, object, select, textarea, [contenteditable]"
+        );
 
         //Find the current tab index.
         const currentIndex = findIndex(allElements, currentNode);
@@ -70,7 +72,6 @@ function navigate(amount) {
             allElements[currentIndex + amount].focus();
     }
 }
-
 
 function upArrowPressed() {
     navigate(-1);
@@ -118,7 +119,8 @@ function handleCheckbox(elem, evt) {
         return true; // webos should be capable of toggling the checkbox by itself
     } else {
         evt = evt || window.event; //keydown event
-        if (evt.keyCode == 13 || evt.keyCode == 32) { //OK button or Space
+        if (evt.keyCode == 13 || evt.keyCode == 32) {
+            //OK button or Space
             elem.checked = !elem.checked;
         }
     }
@@ -127,27 +129,30 @@ function handleCheckbox(elem, evt) {
 
 // Similar to jellyfin-web
 function generateDeviceId() {
-    return btoa([navigator.userAgent, new Date().getTime()].join('|')).replace(/=/g, '1');
+    return btoa([navigator.userAgent, new Date().getTime()].join("|")).replace(
+        /=/g,
+        "1"
+    );
 }
 
 function getDeviceId() {
     // Use variable '_deviceId2' to mimic jellyfin-web
 
-    var deviceId = storage.get('_deviceId2');
+    var deviceId = storage.get("_deviceId2");
 
     if (!deviceId) {
         deviceId = generateDeviceId();
-        storage.set('_deviceId2', deviceId);
+        storage.set("_deviceId2", deviceId);
     }
 
     return deviceId;
 }
 
 function navigationInit() {
-    if (isVisible(document.querySelector('#connect'))) {
-        document.querySelector('#connect').focus()
-    } else if (isVisible(document.querySelector('#abort'))) {
-        document.querySelector('#abort').focus()
+    if (isVisible(document.querySelector("#connect"))) {
+        document.querySelector("#connect").focus();
+    } else if (isVisible(document.querySelector("#abort"))) {
+        document.querySelector("#abort").focus();
     }
 }
 
@@ -158,19 +163,26 @@ function Init() {
         if (info) {
             appInfo.appVersion = info.version;
         } else {
-            console.error('Error occurs while getting appinfo.json.');
+            console.error("Error occurs while getting appinfo.json.");
         }
     });
 
     navigationInit();
 
-    if (storage.exists('connected_servers')) {
-        connected_servers = storage.get('connected_servers')
-        var first_server = connected_servers[Object.keys(connected_servers)[0]]
-        document.querySelector('#baseurl').value = first_server.baseurl;
-        document.querySelector('#auto_connect').checked = first_server.auto_connect;
-        if (window.performance && window.performance.navigation.type == window.performance.navigation.TYPE_BACK_FORWARD) {
-            console.log('Got here using the browser "Back" or "Forward" button, inhibiting auto connect.');
+    if (storage.exists("connected_servers")) {
+        connected_servers = storage.get("connected_servers");
+        var first_server = connected_servers[Object.keys(connected_servers)[0]];
+        document.querySelector("#baseurl").value = first_server.baseurl;
+        document.querySelector("#auto_connect").checked =
+            first_server.auto_connect;
+        if (
+            window.performance &&
+            window.performance.navigation.type ==
+                window.performance.navigation.TYPE_BACK_FORWARD
+        ) {
+            console.log(
+                'Got here using the browser "Back" or "Forward" button, inhibiting auto connect.'
+            );
         } else {
             if (first_server.auto_connect) {
                 console.log("Auto connecting...");
@@ -207,11 +219,10 @@ function normalizeUrl(url) {
 }
 
 function handleServerSelect() {
-    var baseurl = normalizeUrl(document.querySelector('#baseurl').value);
-    var auto_connect = document.querySelector('#auto_connect').checked;
+    var baseurl = normalizeUrl(document.querySelector("#baseurl").value);
+    var auto_connect = document.querySelector("#auto_connect").checked;
 
     if (validURL(baseurl)) {
-
         displayConnecting();
         console.log(baseurl, auto_connect);
 
@@ -223,29 +234,31 @@ function handleServerSelect() {
         getServerInfo(baseurl, auto_connect);
     } else {
         console.log(baseurl);
-        displayError("Please enter a valid URL, it needs a scheme (http:// or https://), a hostname or IP (ex. jellyseer.local or 192.168.0.2) and a port (ex. :5055).");
+        displayError(
+            "Please enter a valid URL, it needs a scheme (http:// or https://), a hostname or IP (ex. jellyseer.local or 192.168.0.2) and a port (ex. :5055)."
+        );
     }
 }
 
 function displayError(error) {
-    var errorElem = document.querySelector('#error')
-    errorElem.style.display = '';
+    var errorElem = document.querySelector("#error");
+    errorElem.style.display = "";
     errorElem.innerHTML = error;
 }
 function hideError() {
-    var errorElem = document.querySelector('#error')
-    errorElem.style.display = 'none';
-    errorElem.innerHTML = '&nbsp;';
+    var errorElem = document.querySelector("#error");
+    errorElem.style.display = "none";
+    errorElem.innerHTML = "&nbsp;";
 }
 
 function displayConnecting() {
-    document.querySelector('#serverInfoForm').style.display = 'none';
-    document.querySelector('#busy').style.display = '';
+    document.querySelector("#serverInfoForm").style.display = "none";
+    document.querySelector("#busy").style.display = "";
     navigationInit();
 }
 function hideConnecting() {
-    document.querySelector('#serverInfoForm').style.display = '';
-    document.querySelector('#busy').style.display = 'none';
+    document.querySelector("#serverInfoForm").style.display = "";
+    document.querySelector("#busy").style.display = "none";
     navigationInit();
 }
 function getServerInfo(baseurl, auto_connect) {
@@ -256,7 +269,7 @@ function getServerInfo(baseurl, auto_connect) {
         },
         error: handleFailure,
         abort: handleAbort,
-        timeout: 5000
+        timeout: 5000,
     });
 }
 
@@ -268,64 +281,72 @@ function getManifest(baseurl) {
         },
         error: handleFailure,
         abort: handleAbort,
-        timeout: 5000
+        timeout: 5000,
     });
 }
 
 function getConnectedServers() {
-    connected_servers = storage.get('connected_servers');
+    connected_servers = storage.get("connected_servers");
     if (!connected_servers) {
         connected_servers = {};
     }
     return connected_servers;
 }
 
-
 function handleSuccessServerInfo(data, baseurl, auto_connect) {
     curr_req = false;
 
     connected_servers = getConnectedServers();
     for (var server_id in connected_servers) {
-        var server = connected_servers[server_id]
+        var server = connected_servers[server_id];
         if (server.baseurl == baseurl) {
             if (server.id != data.Id && server.id !== false) {
                 //server has changed warn user.
                 hideConnecting();
-                displayError("The server ID has changed since the last connection, please check if you are reaching your own server. To connect anyway, click connect again.");
-                delete connected_servers[server_id]
-                connected_servers[data.Id] = ({ 'baseurl': baseurl, 'auto_connect': false, 'id': false })
-                storage.set('connected_server', connected_servers)
-                return false
+                displayError(
+                    "The server ID has changed since the last connection, please check if you are reaching your own server. To connect anyway, click connect again."
+                );
+                delete connected_servers[server_id];
+                connected_servers[data.Id] = {
+                    baseurl: baseurl,
+                    auto_connect: false,
+                    id: false,
+                };
+                storage.set("connected_server", connected_servers);
+                return false;
             }
         }
     }
 
+    connected_servers = lruStrategy(connected_servers, 4, {
+        baseurl: baseurl,
+        auto_connect: auto_connect,
+        id: data.Id,
+        Name: data.ServerName,
+    });
 
-    connected_servers = lruStrategy(connected_servers,4, { 'baseurl': baseurl, 'auto_connect': auto_connect, 'id': data.Id, 'Name':data.ServerName })
+    storage.set("connected_servers", connected_servers);
 
-    storage.set('connected_servers', connected_servers);
-
-
-    getManifest(baseurl)
+    getManifest(baseurl);
     return true;
 }
 
-function lruStrategy(old_items,max_items,new_item) {
-    var result = {}
-    var id = new_item.id
+function lruStrategy(old_items, max_items, new_item) {
+    var result = {};
+    var id = new_item.id;
 
-    delete old_items[id] // LRU: re-insert entry (in front) each time it is used
-    result[id] =  new_item
-    var keys = Object.keys(old_items)
-    for (var i=0; i<max_items-1; i++){
-        var current_key=keys[i]
-        result[current_key] = old_items[current_key]
+    delete old_items[id]; // LRU: re-insert entry (in front) each time it is used
+    result[id] = new_item;
+    var keys = Object.keys(old_items);
+    for (var i = 0; i < max_items - 1; i++) {
+        var current_key = keys[i];
+        result[current_key] = old_items[current_key];
     }
-    return result
+    return result;
 }
 
 function handleSuccessManifest(data, baseurl) {
-    if(data.start_url.includes("/web")){
+    if (data.start_url.includes("/web")) {
         var hosturl = normalizeUrl(baseurl + "/" + data.start_url);
     } else {
         var hosturl = normalizeUrl(baseurl + "/web/" + data.start_url);
@@ -334,68 +355,77 @@ function handleSuccessManifest(data, baseurl) {
     curr_req = false;
 
     for (var server_id in connected_servers) {
-        var info = connected_servers[server_id]
-        if (info['baseurl' ] == baseurl) {
-            info['hosturl'] = hosturl
-            info['Address'] = info['Address'] || baseurl
+        var info = connected_servers[server_id];
+        if (info["baseurl"] == baseurl) {
+            info["hosturl"] = hosturl;
+            info["Address"] = info["Address"] || baseurl;
 
-            storage.set('connected_servers', connected_servers)
+            storage.set("connected_servers", connected_servers);
             console.log("martin:handleSuccessManifest modified server");
             console.log(info);
 
-        // avoid Promise as it's buggy in some WebOS
-            getTextToInject(function (bundle) {
-                handoff(hosturl, bundle);
-            }, function (error) {
-                console.error(error);
-                displayError(error);
-                hideConnecting();
-                curr_req = false;
-            });
+            // avoid Promise as it's buggy in some WebOS
+            getTextToInject(
+                function (bundle) {
+                    handoff(hosturl, bundle);
+                },
+                function (error) {
+                    console.error(error);
+                    displayError(error);
+                    hideConnecting();
+                    curr_req = false;
+                }
+            );
             return;
         }
     }
     //no id, unshoft generates unique(?) index
     connected_servers.unshift({
-        'baseurl': baseurl,
-        'hosturl': hosturl,
-        'Name': data.shortname,
-        'Address': new URL(baseurl).hostname.slice(0,8),
-    })
-    storage.set('connected_server', servers)
+        baseurl: baseurl,
+        hosturl: hosturl,
+        Name: data.shortname,
+        Address: new URL(baseurl).hostname.slice(0, 8),
+    });
+    storage.set("connected_server", servers);
     console.log("martin:handleSuccessManifest added server");
     console.log(info);
 }
 
 function handleAbort() {
-    console.log("Aborted.")
+    console.log("Aborted.");
     hideConnecting();
     curr_req = false;
 }
 
 function handleFailure(data) {
-    console.log("Failure:", data)
-    console.log("Could not connect to server...")
-    if (data.error == 'timeout') {
-        displayError("The request timed out.")
-    } else if (data.error == 'abort') {
-        displayError("The request was aborted.")
-    } else if (typeof data.error === 'string') {
+    console.log("Failure:", data);
+    console.log("Could not connect to server...");
+    if (data.error == "timeout") {
+        displayError("The request timed out.");
+    } else if (data.error == "abort") {
+        displayError("The request was aborted.");
+    } else if (typeof data.error === "string") {
         displayError(data.error);
-    } else if (typeof data.error === 'number' && data.error > 0) {
-        displayError("Got HTTP error " + data.error.toString() + " from server, are you connecting to a Jellyseer Server?")
+    } else if (typeof data.error === "number" && data.error > 0) {
+        displayError(
+            "Got HTTP error " +
+                data.error.toString() +
+                " from server, are you connecting to a Jellyseer Server?"
+        );
     } else {
-        displayError("Unknown error occured, are you connecting to a Jellyseer Server?")
+        displayError(
+            "Unknown error occured, are you connecting to a Jellyseer Server?"
+        );
     }
 
     hideConnecting();
-    storage.remove('connected_server');
+    storage.remove("connected_server");
     curr_req = false;
 }
 
 function abort() {
     if (curr_req) {
-        curr_req.abort()
+        curr_req.abort();
     } else {
         hideConnecting();
     }
@@ -405,7 +435,7 @@ function abort() {
 function loadUrl(url, success, failure) {
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', url);
+    xhr.open("GET", url);
 
     xhr.onload = function () {
         success(xhr.responseText);
@@ -413,7 +443,7 @@ function loadUrl(url, success, failure) {
 
     xhr.onerror = function () {
         failure("Failed to load '" + url + "'");
-    }
+    };
 
     xhr.send();
 }
@@ -421,7 +451,7 @@ function loadUrl(url, success, failure) {
 function getTextToInject(success, failure) {
     var bundle = {};
 
-    var urls = ['js/webOS.js', 'css/webOS.css'];
+    var urls = ["js/webOS.js", "css/webOS.css"];
 
     // imitate promises as they're borked in at least WebOS 2
     var looper = function (idx) {
@@ -429,48 +459,61 @@ function getTextToInject(success, failure) {
             success(bundle);
         } else {
             var url = urls[idx];
-            var ext = url.split('.').pop();
-            loadUrl(url, function (data) {
-                bundle[ext] = (bundle[ext] || '') + data;
-                looper(idx + 1);
-            }, failure);
+            var ext = url.split(".").pop();
+            loadUrl(
+                url,
+                function (data) {
+                    bundle[ext] = (bundle[ext] || "") + data;
+                    looper(idx + 1);
+                },
+                failure
+            );
         }
     };
     looper(0);
 }
 
 function injectScriptText(document, text) {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
+    var script = document.createElement("script");
+    script.type = "text/javascript";
     script.innerHTML = text;
     document.head.appendChild(script);
 }
 
 function injectStyleText(document, text) {
-    var style = document.createElement('style');
+    var style = document.createElement("style");
     style.innerHTML = text;
     document.body.appendChild(style);
 }
 
 function handoff(url, bundle) {
-    console.log("Handoff called with: ", url)
+    console.log("Handoff called with: ", url);
     //hideConnecting();
 
     stopDiscovery();
-    document.querySelector('.container').style.display = 'none';
+    document.querySelector(".container").style.display = "none";
 
-    var contentFrame = document.querySelector('#contentFrame');
+    var contentFrame = document.querySelector("#contentFrame");
     var contentWindow = contentFrame.contentWindow;
 
     var timer;
 
     function onLoad() {
         clearInterval(timer);
-        contentFrame.contentDocument.removeEventListener('DOMContentLoaded', onLoad);
-        contentFrame.removeEventListener('load', onLoad);
+        contentFrame.contentDocument.removeEventListener(
+            "DOMContentLoaded",
+            onLoad
+        );
+        contentFrame.removeEventListener("load", onLoad);
 
-        injectScriptText(contentFrame.contentDocument, 'window.AppInfo = ' + JSON.stringify(appInfo) + ';');
-        injectScriptText(contentFrame.contentDocument, 'window.DeviceInfo = ' + JSON.stringify(deviceInfo) + ';');
+        injectScriptText(
+            contentFrame.contentDocument,
+            "window.AppInfo = " + JSON.stringify(appInfo) + ";"
+        );
+        injectScriptText(
+            contentFrame.contentDocument,
+            "window.DeviceInfo = " + JSON.stringify(deviceInfo) + ";"
+        );
 
         if (bundle.js) {
             injectScriptText(contentFrame.contentDocument, bundle.js);
@@ -482,48 +525,51 @@ function handoff(url, bundle) {
     }
 
     function onUnload() {
-        contentWindow.removeEventListener('unload', onUnload);
+        contentWindow.removeEventListener("unload", onUnload);
 
         timer = setInterval(function () {
             var contentDocument = contentFrame.contentDocument;
 
             switch (contentDocument.readyState) {
-                case 'loading':
+                case "loading":
                     clearInterval(timer);
-                    contentDocument.addEventListener('DOMContentLoaded', onLoad);
+                    contentDocument.addEventListener(
+                        "DOMContentLoaded",
+                        onLoad
+                    );
                     break;
 
                 // In the case of "loading" is not caught
-                case 'interactive':
+                case "interactive":
                     onLoad();
                     break;
             }
         }, 0);
     }
 
-    contentWindow.addEventListener('unload', onUnload);
+    contentWindow.addEventListener("unload", onUnload);
 
     // In the case of "loading" and "interactive" are not caught
-    contentFrame.addEventListener('load', onLoad);
+    contentFrame.addEventListener("load", onLoad);
 
-    contentFrame.style.display = '';
+    contentFrame.style.display = "";
     contentFrame.src = url;
 }
 
-window.addEventListener('message', function (msg) {
+window.addEventListener("message", function (msg) {
     msg = msg.data;
 
-    var contentFrame = document.querySelector('#contentFrame');
+    var contentFrame = document.querySelector("#contentFrame");
 
     switch (msg.type) {
-        case 'selectServer':
+        case "selectServer":
             startDiscovery();
-            document.querySelector('.container').style.display = '';
+            document.querySelector(".container").style.display = "";
             hideConnecting();
-            contentFrame.style.display = 'none';
-            contentFrame.src = '';
+            contentFrame.style.display = "none";
+            contentFrame.src = "";
             break;
-        case 'AppHost.exit':
+        case "AppHost.exit":
             webOS.platformBack();
             break;
     }
@@ -578,7 +624,6 @@ function renderSingleServer(server_id, server) {
     server_card.appendChild(btn);
 }
 
-
 var servers_verifying = {};
 
 function verifyThenAdd(server) {
@@ -606,10 +651,9 @@ function verifyThenAdd(server) {
             console.log(server);
             servers_verifying[server.Id] = false;
         },
-        timeout: 6000
+        timeout: 6000,
     });
 }
-
 
 var discover = null;
 
@@ -618,26 +662,29 @@ function startDiscovery() {
         return;
     }
     console.log("Starting server autodiscovery...");
-    discover = webOS.service.request("luna://org.jellyfin.webos.service", {
-        method: "discover",
-        parameters: {
-            uniqueToken: 'fooo'
-        },
-        subscribe: true,
-        resubscribe: true,
-        onSuccess: function (args) {
-            console.log('OK:', JSON.stringify(args));
+    discover = webOS.service.request(
+        "luna://org.lrwm3.webos.jellyseer.service",
+        {
+            method: "discover",
+            parameters: {
+                uniqueToken: "fooo",
+            },
+            subscribe: true,
+            resubscribe: true,
+            onSuccess: function (args) {
+                console.log("OK:", JSON.stringify(args));
 
-            if (args.results) {
-                for (var server_id in args.results) {
-                    verifyThenAdd(args.results[server_id]);
+                if (args.results) {
+                    for (var server_id in args.results) {
+                        verifyThenAdd(args.results[server_id]);
+                    }
                 }
-            }
-        },
-        onFailure: function (args) {
-            console.log('ERR:', JSON.stringify(args));
+            },
+            onFailure: function (args) {
+                console.log("ERR:", JSON.stringify(args));
+            },
         }
-    });
+    );
 }
 
 function stopDiscovery() {

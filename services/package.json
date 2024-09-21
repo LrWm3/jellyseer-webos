@@ -1,5 +1,5 @@
 {
-  "name": "org.jellyfin.webos.service",
-  "description": "Jellyfin Discovery Service",
-  "main": "service.js"
+    "name": "org.lrwm3.webos.jellyseer.service",
+    "description": "Jellyfin Discovery Service",
+    "main": "service.js"
 }

@@ -1,20 +1,20 @@
 {
-  "name": "org.jellyfin.webos",
-  "version": "1.2.2",
-  "description": "Jellyfin WebOS client",
-  "scripts": {
-    "check": "ares-package --check",
-    "package": "ares-package --no-minify --outdir build/ services frontend",
-    "clean": "rm -rf build/",
-    "deploy": "ares-install build/org.jellyfin.webos_${npm_package_version}_all.ipk",
-    "launch": "ares-launch org.jellyfin.webos",
-    "manifest": "node tools/gen-manifest.js build/org.jellyfin.webos.manifest.json",
-    "version": "node tools/sync-version.js && git add frontend/appinfo.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Jellyfin contributors",
-  "license": "MPL-2.0",
-  "devDependencies": {
-    "@webosose/ares-cli": "^2.4.0"
-  }
+    "name": "org.lrwm3.webos.jellyseer",
+    "version": "1.2.2",
+    "description": "Jellyfin WebOS client",
+    "scripts": {
+        "check": "ares-package --check",
+        "package": "ares-package --no-minify --outdir build/ services frontend",
+        "clean": "rm -rf build/",
+        "deploy": "ares-install build/org.lrwm3.webos.jellyseer_${npm_package_version}_all.ipk",
+        "launch": "ares-launch org.lrwm3.webos.jellyseer",
+        "manifest": "node tools/gen-manifest.js build/org.lrwm3.webos.jellyseer.manifest.json",
+        "version": "node tools/sync-version.js && git add frontend/appinfo.json",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Jellyfin contributors",
+    "license": "MPL-2.0",
+    "devDependencies": {
+        "@webosose/ares-cli": "^2.4.0"
+    }
 }
