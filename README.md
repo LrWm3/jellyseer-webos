@@ -1,6 +1,6 @@
-# Jellyfin for webOS
+# Jellysser for webOS
 
-This is a small wrapper around the web interface that the server provides (https://github.com/jellyfin/jellyfin-web) so most of the developement happens there.
+This is a small unofficial wrapper around the web interface that the server provides [(https://github.com/jellyfin/jellyfin-web)](https://github.com/Fallenbagel/jellyseerr) so most of the developement happens there.
 
 ## Download
 
@@ -14,7 +14,11 @@ For all versions:
 
 ## License
 
-All Jellyfin webOS code is licensed under the MPL 2.0 license, some parts incorporate content licensed under the Apache 2.0 license. All images are taken from and licensed under the same license as https://github.com/jellyfin/jellyfin-ux.
+All Jellyseer code is licensed under the [MIT License](https://github.com/Fallenbagel/jellyseerr/blob/develop/LICENSE).
+
+As a fork, all Jellyseer webos code is licensed under the MPL License 2.0. 
+
+All images are taken from and licensed under the same license as https://github.com/jellyfin/jellyfin-web.
 
 ---
 
