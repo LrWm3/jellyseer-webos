@@ -1,6 +1,6 @@
 # Jellyseerr for webOS
 
-This is a small unofficial wrapper around the web interface that the server provides [(https://github.com/jellyfin/jellyfin-web)](https://github.com/Fallenbagel/jellyseerr) so most of the developement happens there.
+This is a small unofficial wrapper around the web interface that the server provides (https://github.com/Fallenbagel/jellyseerr) so most of the developement happens there.
 
 ## Download
 
