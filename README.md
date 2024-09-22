@@ -14,11 +14,11 @@ For all versions:
 
 ## License
 
-All Jellyseer code is licensed under the [MIT License](https://github.com/Fallenbagel/jellyseerr/blob/develop/LICENSE).
+All Jellyseerr code is licensed under the [MIT License](https://github.com/Fallenbagel/jellyseerr/blob/develop/LICENSE).
 
-As a fork, all Jellyseer webos code is licensed under the MPL License 2.0. 
+As a fork, all Jellyseerr webos code is licensed under the MPL License 2.0. 
 
-All images are taken from and licensed under the same license as https://github.com/jellyfin/jellyfin-web.
+All images are taken from and licensed under the same license as https://github.com/Fallenbagel/jellyseerr.
 
 ---
 
