@@ -1,8 +1,8 @@
 {
-    "LocalAddress": "jellyfin.marshof.duckdns.org",
-    "ServerName": "Marshoflix",
+    "LocalAddress": "192.168.2.140:5055",
+    "ServerName": "Marshoflix Jellyseerr",
     "Version": "10.9.10",
-    "ProductName": "Jellyfin Server",
+    "ProductName": "Jellyseerr Server",
     "OperatingSystem": "",
     "Id": "41d247fd4fd341c1b88adf789aca29f9",
     "StartupWizardCompleted": true

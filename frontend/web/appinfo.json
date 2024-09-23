@@ -1,8 +1,8 @@
 {
-    "name": "Jellyfin",
+    "name": "Jellyseer Web",
     "description": "The Free Software Media System",
     "lang": "en-US",
-    "short_name": "Jellyfin",
+    "short_name": "Jellyseer",
     "start_url": "index.html",
     "theme_color": "#101010",
     "background_color": "#101010",

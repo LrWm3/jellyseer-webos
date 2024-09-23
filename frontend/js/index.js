@@ -92,23 +92,89 @@ function backPressed() {
     webOS.platformBack();
 }
 
+function programmableButtonPressed(color) {
+    let reset_counters = {};
+    reset_counters[color] = 0;
+    if (storage.exists("reset_counters")) {
+        reset_counters = storage.get("reset_counters");
+        reset_counters[color] = reset_counters[color] || 0;
+        reset_counters[color]++;
+        storage.set("reset_counters", reset_counters);
+    }
+
+    if (reset_counters[color] > 2) {
+        console.log("Custom buttons pressed, removing storage");
+        hideConnecting();
+        storage.remove("connected_server");
+        storage.remove("connected_servers");
+        curr_req = false;
+        reset_counters[color] = 0;
+        storage.set("reset_counters", reset_counters);
+    } else {
+        console.log("Custom buttons pressed, removing storage");
+        hideConnecting();
+        storage.remove("connected_server");
+        if (storage.exists("connected_servers")) {
+            connected_servers = storage.get("connected_servers");
+            let server = connected_servers[Object.keys(connected_servers)[0]];
+            server.auto_connect = false;
+            connected_servers[Object.keys(connected_servers)[0]] = server;
+            storage.set("connected_servers", connected_servers);
+        }
+        curr_req = false;
+    }
+
+    // reset counters for other colors
+    resetClearServerListCounter(color);
+    window.location.reload(true);
+}
+
+function resetClearServerListCounter(color) {
+    if (storage.exists("reset_counters")) {
+        let reset_counters = storage.get("reset_counters");
+        for (let key in reset_counters) {
+            if (key !== color) {
+                reset_counters[key] = 0;
+            }
+        }
+        storage.set("reset_counters", reset_counters);
+    }
+}
+
 document.onkeydown = function (evt) {
     evt = evt || window.event;
     switch (evt.keyCode) {
         case 37:
             leftArrowPressed();
+            resetClearServerListCounter("none");
             break;
         case 39:
             rightArrowPressed();
+            resetClearServerListCounter("none");
             break;
         case 38:
             upArrowPressed();
+            resetClearServerListCounter("none");
             break;
         case 40:
             downArrowPressed();
+            resetClearServerListCounter("none");
             break;
         case 461: // Back
             backPressed();
+            resetClearServerListCounter("none");
+            break;
+        case 403:
+            programmableButtonPressed("red");
+            break;
+        case 404:
+            programmableButtonPressed("green");
+            break;
+        case 405:
+            programmableButtonPressed("yellow");
+            break;
+        case 406:
+            programmableButtonPressed("blue");
             break;
     }
 };
@@ -262,27 +328,54 @@ function hideConnecting() {
     navigationInit();
 }
 function getServerInfo(baseurl, auto_connect) {
-    curr_req = ajax.request(normalizeUrl(baseurl + "/System/Info/Public"), {
-        method: "GET",
-        success: function (data) {
-            handleSuccessServerInfo(data, baseurl, auto_connect);
-        },
-        error: handleFailure,
-        abort: handleAbort,
-        timeout: 5000,
-    });
+    // Fixme: figure out how to avoid needing to do this
+    data = {
+        LocalAddress: baseurl,
+        ServerName: baseurl.split("/")[2].split(":")[0],
+        Version: "10.9.10",
+        ProductName: "Unknown",
+        OperatingSystem: "",
+        Id: baseurl,
+        StartupWizardCompleted: true,
+    };
+    handleSuccessServerInfo(data, baseurl, auto_connect);
 }
 
 function getManifest(baseurl) {
-    curr_req = ajax.request(normalizeUrl(baseurl + "/web/manifest.json"), {
-        method: "GET",
-        success: function (data) {
-            handleSuccessManifest(data, baseurl);
-        },
-        error: handleFailure,
-        abort: handleAbort,
-        timeout: 5000,
-    });
+    // Fixme: figure out how to avoid needing to do this
+    data = {
+        name: "Jellyseer",
+        description: "The Free Software Media System",
+        lang: "en-US",
+        short_name: "Jellyseer",
+        start_url: "index.html",
+        theme_color: "#101010",
+        background_color: "#101010",
+        display: "standalone",
+        icons: [
+            {
+                sizes: "72x72",
+                src: "touchicon72.png",
+                type: "image/png",
+            },
+            {
+                sizes: "114x114",
+                src: "touchicon114.png",
+                type: "image/png",
+            },
+            {
+                sizes: "144x144",
+                src: "touchicon144.png",
+                type: "image/png",
+            },
+            {
+                sizes: "512x512",
+                src: "touchicon512.png",
+                type: "image/png",
+            },
+        ],
+    };
+    handleSuccessManifest(data, baseurl);
 }
 
 function getConnectedServers() {
