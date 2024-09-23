@@ -99,8 +99,8 @@ function programmableButtonPressed(color) {
         reset_counters = storage.get("reset_counters");
         reset_counters[color] = reset_counters[color] || 0;
         reset_counters[color]++;
-        storage.set("reset_counters", reset_counters);
     }
+    storage.set("reset_counters", reset_counters);
 
     if (reset_counters[color] > 2) {
         console.log("Custom buttons pressed, removing storage");
